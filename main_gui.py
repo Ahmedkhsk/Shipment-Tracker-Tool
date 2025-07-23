@@ -4,7 +4,7 @@ from tkinter import filedialog, messagebox
 from config import EXCEL_FILE, PDF_DIR
 from pdf_utils import merge_pdfs, extract_text_from_pdf, extract_bill_of_lading
 from excel_utils import update_excel
-from shipment_tracker import AdvancedShipmentTracker
+from trackers.tracker_core import AdvancedShipmentTracker
 import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 

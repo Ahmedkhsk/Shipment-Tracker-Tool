@@ -8,55 +8,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 
-def wait_for_loader_and_results(driver, loader_xpath, result_xpath, timeout=40):
-    try:
-        print("Waiting for loader to appear...")
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, loader_xpath))
-        )
-        print("Loader appeared.")
-    except TimeoutException:
-        print("Loader did not appear, maybe already loaded.")
-
-    try:
-        print("Waiting for loader to disappear...")
-        WebDriverWait(driver, timeout).until_not(
-            EC.presence_of_element_located((By.XPATH, loader_xpath))
-        )
-        print("Loader disappeared.")
-    except TimeoutException:
-        print("Loader did not disappear in time.")
-
-    print("Waiting for results to appear...")
-    WebDriverWait(driver, timeout).until(
-        EC.presence_of_element_located((By.XPATH, result_xpath))
-    )
-    print("Results appeared.")
+from .driver_utils import wait_for_loader_and_results
+from .strategies import STRATEGIES
 
 class AdvancedShipmentTracker:
     def __init__(self):
-        self.tracking_strategies = {
-            'MSC': {
-                'url': 'https://www.msc.com/en/track-a-shipment',
-                'input_locators': [
-                    ('id', 'trackingNumber'),
-                    ('xpath', "//input[@placeholder='Enter a Container/Bill of Lading Number']"),
-                    ('name', 'trackingNumber'),
-                    ('xpath', "//input[contains(@placeholder, 'Container')]"),
-                    ('xpath', "//input[contains(@placeholder, 'Bill of Lading')]"),
-                ],
-                'result_indicators': [
-                    ('class_name', 'msc-flow-tracking__wrapper'),
-                ],
-                'eta_patterns': [
-                    r'Price Calculation Date\*[:\s]*([0-9]{2}/[0-9]{2}/[0-9]{4})',
-                    r'Price Calculation Date\s*\*?\s*[:\-]?\s*([0-9]{2}/[0-9]{2}/[0-9]{4})',
-                    r'POD ETA[:\s]*(\d{2}/\d{2}/\d{4})',
-                    r'Estimated Time of Arrival[:\s]*(\d{2}/\d{2}/\d{4})',
-                    r'ETA[:\s]*(\d{2}/\d{2}/\d{4})',
-                ]
-            },
-        }
+        self.tracking_strategies = STRATEGIES
 
     def close_cookie_popup(self, driver):
         try:
@@ -117,7 +74,6 @@ class AdvancedShipmentTracker:
     def track_shipment_with_strategy(self, container_number, strategy_name, strategy_config):
         print("Starting shipment tracking on website...")
         options = Options()
-
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument("--window-size=1920,1080")

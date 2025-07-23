@@ -26,10 +26,14 @@ ShipmentTracker/
 ├── main_gui.py              # GUI interface using ttkbootstrap
 ├── excel_utils.py           # Excel handling (update/save)
 ├── pdf_utils.py             # PDF merging, text extraction, B/L extraction
-├── shipment_tracker.py      # Core logic: site tracking and automation
+├── trackers/
+│   ├── tracker_core.py      # Core tracking logic
+│   ├── driver_utils.py      # Selenium wait & loading logic
+│   └── strategies.py        # Tracking strategies per shipping line
 ├── config.py                # Constants for default directories/files
 ├── requirements.txt         # List of required packages
 └── README.md                # Project documentation (you are here)
+
 ```
 
 ---

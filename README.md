@@ -124,8 +124,3 @@ You can extend the app to support more shipping companies by updating:
 - Headless mode for Selenium
 - Multi-shipment batch processing
 
----
-
-## 📄 License
-
-This project is open-source and free to use under the [MIT License](LICENSE).

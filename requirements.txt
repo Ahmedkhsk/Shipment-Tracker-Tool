@@ -1,0 +1,7 @@
+openpyxl
+PyPDF2
+pytesseract
+pdf2image
+ttkbootstrap
+selenium
+Pillow
